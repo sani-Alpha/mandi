@@ -8,8 +8,13 @@
       </div>
     </div>
     <div class="container">
-      <p class="mandi-desc is-size-4">Desc of app goes here</p>
-      <p class="mandi-desc is-size-4">para 2 of Desc of app goes here</p>
+      <p class="mandi-desc is-size-4">
+        "Mandi", a web-app, was designed to keep track of all the mandi prices published by Indian Government. The app uses Mandi API to fetch data from their website and display it for users to follow up on.
+        This app originated from the idea to help people with an interactive and easily 'navigatable' app to follow up on horticulture products they love.
+      </p>
+      <p class="mandi-desc is-size-4">
+        This app belongs to  <a href="https://github.com/sani_alpha">@Sanidhya Rai</a>, you can follow him on <a href="https://github.com">Github♥️</a>
+      </p>
     </div>
   </div>
 </template>

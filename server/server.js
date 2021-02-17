@@ -1,55 +1,127 @@
-'use strict';
+'use strict';//using strict mode to resolve errors right away
 
+//importing all the required dependencies
 const express = require('express');
-const session = require('express-session');
-const uuid = require('uuid').v4;
-const fileStore = require('session-file-store')(session);
+const cookieSession = require('cookie-session');
+const passport = require('passport');
+const localStrat = require('passport-local').Strategy;
 const mongoClient = require('mongodb').MongoClient;
 const objectId = require('mongodb').ObjectID;
 const env = require('dotenv').config();
 const PORT = process.env.PORT || 3000;
 
+//declaring express app
 const app = express();
+
+//enabling body-parser
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use(session({
-    genid: (req) => {
-        console.log('Inside session middleware');
-        console.log(req.sessionID);
-        return uuid();
-    },
-    store: new fileStore(),
-    secret: process.env.SECRET,
-    resave: false,
-    saveUninitialized: true,
+
+//enabling cookie-session
+app.use(cookieSession({
+    name: 'mysession',
+    keys: [process.env.SECRET],
+    maxAge: 24*60*60*1000 //milliseconds to 24hrs
 }));
 
+//enabling passport for auth
+app.use(passport.initialize());
+app.use(passport.session);
+
+//using local auth strategy
+passport.use(
+    new localStrat(
+        {
+            usernameField: 'email',
+            passwordField: 'password',
+        },
+        (username,password,done) => {
+            let user = users.find((user) => {
+                return user.email === username && user.password === password;
+            });
+            if(user)
+                done(null,user);
+            else
+                done(null, false, {message:'Incorrect username or password'});
+        },
+    )
+);
+
+//temp data storage || will later be switched with database
+let users = [
+    {
+        _id: 1,
+        name: 'Sandy',
+        email: 'user@email.com',
+        password: 'password'
+    },
+    {
+        _id: 2,
+        name: 'Rai',
+        email: 'rai@email.com',
+        password: 'password'
+    },
+];
+
+//get request to home page
 app.get('/', (req,res) => {
     res.status(200).send('You have landed the home page');
     console.log('Inside homepage callback function');
     console.log(req.sessionID);
 });
 
-app.route('/login')
-    .get((req,res) => {
-        res.send('you have landed the get : login page');
-        console.log('inside GET /login callback function');
-        console.log(req.sessionID);
-    })
-    .post((req,res) => {
-        res.send('you have landed the post : login page');
-        console.log('inside POST /login callback function');
-        console.log(req.body);
+//post request from client to login page
+app.post('/api/login', (req,res,next) => {
+    passport.authenticate('local', (err,user,info) => {
+        if(err) 
+            return next(err);
+        if(!user) 
+            return res.status(400).send([user,'Cannot Log In!',info]);
+        
+        req.login(user,err => {
+            res.send('Logged In!');
+        });
+    })(req,res,next);
+});
+
+//get request from clien to logout
+app.get('/api/logout', (req,res) => {
+    req.logout();
+    console.log('Logged Out!');
+    return res.send();
+});
+
+//defining middleware filter
+const authMiddleware = (req,res,next) => {
+    if(!req.isAuthenticated())
+        res.status(401).send('You are not Authenticated!');
+    else
+        return next();
+}
+
+//get request from client to fetch authenticated users
+app.get('/api/user', authMiddleware, (req,res) => {
+    let user = users.find(user => {
+        return user.id === req.session.passport.user;
     });
-
-app.post('/register', (req,res) => {
-    res.send('You have landed on registration page');
+    console.log([user, req.session]);
+    res.send({user:user});
 });
 
-app.get('/mandi', (req,res) => {
-    res.send('you have landed on Mandi Page');
+//user identification from cookie using id
+passport.serializeUser((user,done) => {
+    done(null, user.id);
 });
 
+//fulffiling request to access secured URL 
+passport.deserializeUser((id ,done) => {
+    let user = users.find((user) => {
+        return user.id === id;
+    });
+    done(null, user);
+});
+
+//allowing express to listen to ports
 app.listen(PORT, () => {
     console.log('server is runnning');
 });

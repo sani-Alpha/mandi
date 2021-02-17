@@ -28,7 +28,6 @@ app.get('/', (req,res) => {
     res.status(200).send('You have landed the home page');
     console.log('Inside homepage callback function');
     console.log(req.sessionID);
-    app.use(express.static('client'));
 });
 
 app.route('/login')

@@ -29,7 +29,7 @@ export default {
     background-image: url('../assets/banner-bg.jpeg');
     filter: blur(8px);
     -webkit-filter: blur(8px);
-    background-size: cover;
+    background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
     height: 400px;

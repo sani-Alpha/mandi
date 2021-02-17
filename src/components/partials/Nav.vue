@@ -19,7 +19,7 @@
                 <div class="navbar-item">
                     <div class="buttons">
                         <a class="button is-dark">
-                            <strong>Sign In</strong>
+                            <strong>Log In</strong>
                         </a>
                     </div>
                 </div>

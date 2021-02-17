@@ -9,9 +9,13 @@ const mongoClient = require('mongodb').MongoClient;
 const objectId = require('mongodb').ObjectID;
 const env = require('dotenv').config();
 const PORT = process.env.PORT || 3000;
+const publicRoot = process.env.ROOTPATH;
 
 //declaring express app
 const app = express();
+
+//statically serving the client dist
+app.use(express.static(publicRoot));
 
 //enabling body-parser
 app.use(express.json());
@@ -26,26 +30,7 @@ app.use(cookieSession({
 
 //enabling passport for auth
 app.use(passport.initialize());
-app.use(passport.session);
-
-//using local auth strategy
-passport.use(
-    new localStrat(
-        {
-            usernameField: 'email',
-            passwordField: 'password',
-        },
-        (username,password,done) => {
-            let user = users.find((user) => {
-                return user.email === username && user.password === password;
-            });
-            if(user)
-                done(null,user);
-            else
-                done(null, false, {message:'Incorrect username or password'});
-        },
-    )
-);
+app.use(passport.session());
 
 //temp data storage || will later be switched with database
 let users = [
@@ -65,9 +50,7 @@ let users = [
 
 //get request to home page
 app.get('/', (req,res) => {
-    res.status(200).send('You have landed the home page');
-    console.log('Inside homepage callback function');
-    console.log(req.sessionID);
+    res.status(200).sendFile('index.html', {root: publicRoot});
 });
 
 //post request from client to login page
@@ -97,7 +80,6 @@ const authMiddleware = (req,res,next) => {
         res.status(401).send('You are not Authenticated!');
     else
         return next();
-}
 
 //get request from client to fetch authenticated users
 app.get('/api/user', authMiddleware, (req,res) => {
@@ -107,6 +89,26 @@ app.get('/api/user', authMiddleware, (req,res) => {
     console.log([user, req.session]);
     res.send({user:user});
 });
+
+}
+//using local auth strategy
+passport.use(
+    new localStrat(
+        {
+            usernameField: 'email',
+            passwordField: 'password',
+        },
+        (username,password,done) => {
+            let user = users.find((user) => {
+                return user.email === username && user.password === password;
+            });
+            if(user)
+                done(null,user);
+            else
+                done(null, false, {message:'Incorrect username or password'});
+        },
+    )
+);
 
 //user identification from cookie using id
 passport.serializeUser((user,done) => {

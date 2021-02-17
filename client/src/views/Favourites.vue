@@ -8,14 +8,44 @@
       </div>
     </div>
     <MandiList />
+    <div class="dashboard">
+      <h2>Dashboard</h2>
+      <p>Welcome {{user.name}}</p>
+    </div>
   </div>
 </template>
 <script>
 import MandiList from '../components/MandiList';
+import axios from 'axios';
+import router from '@/router';
 export default {
-    name: 'Favourites',
-    components: {
+  name: 'Login',
+  components: {
         MandiList,
-    },
+  },
+  data() {
+    return {
+      user: {
+        name: "Sandy"
+      }
+    }
+  },
+  methods: {
+    getUserData: function() {
+      let self = this;
+      axios.get('/api/user')
+        .then((response) => {
+          console.log(response);
+          self.$set(this, "user", response.data.user);
+        })
+        .catch((errors) => {
+          console.log(errors);
+          router.push('/login');
+        });
+    }
+  },
+  mounted() {
+    this.getUserData();
+  }
 }
 </script>

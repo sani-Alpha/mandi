@@ -17,7 +17,7 @@ export default {
     methods: {
         login: (e) => {
             e.preventDefault();
-            let email = 'ser@email.com';
+            let email = 'user@email.com';
             let password = 'password';
             let login = () => {
                 let data = {
@@ -25,12 +25,13 @@ export default {
                     password: password,
                 }
                 axios.post('/api/login', data)
-                    .then((res) => {
+                    .then((response) => {
                         console.log('logged in');
+                        console.log(response);
                         router.push('/favourites');
-                    }).catch((err) => {
+                    }).catch((errors) => {
                         console.log('cannot log in');
-                        console.log(err);
+                        console.log(errors);
                     });
             }
             login();

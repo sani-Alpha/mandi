@@ -19,7 +19,7 @@
     </div>
 </template>
 <script>
-import CommodityCard from '@components/CommodityCard';
+import CommodityCard from '@/components/CommodityCard';
 
 export default {
     name: 'MandiList',

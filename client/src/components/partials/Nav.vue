@@ -13,8 +13,9 @@
         <div id="navbar" class="navbar-menu">
             <div class="navbar-start">
                 <router-link to="/" class="navbar-item">Home</router-link>
-                <router-link to="/about" class="navbar-item">About</router-link>
+                <router-link to="/mandi" class="navbar-item">Mandi</router-link>
                 <router-link to="/favourites" class="navbar-item">Favourites</router-link>
+                <router-link to="/about" class="navbar-item">About</router-link>
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">

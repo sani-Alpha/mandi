@@ -2,6 +2,7 @@
   <div class="home">
     <section class="main is-dark"> 
       <div class="main-body">
+        <div class="bg-image"></div>
         <div class="container">
           <h1 class="title">Welcome to your Mandi!</h1>
           <h2 class="subtitle">Make sure you SignUp to get all the updates!</h2>
@@ -23,21 +24,38 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  .main {
+  .bg-image {
     text-align: center;
-    background-image: url('https://cdn.auth0.com/blog/vue-meetup/event-banner.png');
+    background-image: url('../assets/banner-bg.jpeg');
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     height: 400px;
   }
+  .container {
+    background-color: rgba(0,0,0,0); //fallback
+    background-color: rgba(0,0,0,0.6); //override
+    border: 3px solid #f1f1f1;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 2;
+    width: 80%;
+    padding: 20px;
+    text-align: center;
+  }
   .main-body .title {
-    text-shadow: 4px 4px 4px rgba(0,0,0,0.6);
+    color: white;
+    text-shadow: 4px 4px 4px rgba(0,0,0,0);
     padding: 40px 0 20px 0;
     font-size: 60px;
   }
   .subtitle {
-    text-shadow: 4px 4px 4px rgba(0,0,0,0.7);
+    color: white;
+    text-shadow: 4px 4px 4px rgba(0,0,0,0);
     font-size: 30px;
   }
   .button-block {
@@ -46,7 +64,7 @@ export default {
     margin-right: auto;
     width: 100%;
     position: absolute;
-    bottom: -150px;
+    top: 115%;
     .button {
       margin-right: 50px;
       margin-left: 50px;

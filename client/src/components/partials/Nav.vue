@@ -2,7 +2,7 @@
     <nav class="navbar container" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item" href="/">
-                <strong class="is-size-3">MandiApp</strong>
+                <strong class="is-size-3">MandiDaliya</strong>
             </a>
             <a class="navbar-burger burger" role="button" aria-label="menu" aria-expanded="false" data-target="navbarBasic">
                 <span aria-hidden="true"></span>

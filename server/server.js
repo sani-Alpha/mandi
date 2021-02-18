@@ -9,7 +9,7 @@ const mongoClient = require('mongodb').MongoClient;
 const objectId = require('mongodb').ObjectID;
 const env = require('dotenv').config();
 const PORT = process.env.PORT || 3000;
-const publicRoot = process.env.ROOTPATH;
+const publicRoot = process.env.MANDIPATH;
 
 //declaring express app
 const app = express();
@@ -35,13 +35,13 @@ app.use(passport.session());
 //temp data storage || will later be switched with database
 let users = [
     {
-        _id: 1,
+        id: 1,
         name: 'Sandy',
         email: 'user@email.com',
         password: 'password'
     },
     {
-        _id: 2,
+        id: 2,
         name: 'Rai',
         email: 'rai@email.com',
         password: 'password'

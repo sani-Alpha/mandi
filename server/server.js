@@ -124,9 +124,6 @@ passport.deserializeUser((id ,done) => {
     done(null, user);
 });
 
-//ading a cron job
-
-
 //allowing express to listen to ports
 app.listen(PORT, () => {
     console.log('server is runnning');

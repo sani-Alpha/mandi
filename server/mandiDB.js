@@ -1,4 +1,5 @@
 const request = require('request');
+let database,collection;
 
 mongoClient.connect(process.env.MANDI_URI||'mongodb://localhost/mandi', {useUnifiedTopology: true}, (error,client) => {
         if(error)

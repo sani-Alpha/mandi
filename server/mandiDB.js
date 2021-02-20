@@ -1,5 +1,5 @@
 const request = require('request');
-let database,collection, data;
+let database,collection;
 
 mongoClient.connect(process.env.MANDI_URI||'mongodb://localhost/mandi', {useUnifiedTopology: true}, (error,client) => {
         if(error)
@@ -18,9 +18,8 @@ request.get({
 }, 
 (error, response, body) => {
     if (!error && response.statusCode == 200) {
-        data = JSON.parse(body);
         let dataObj = [];
-        dataObj.push(data);
+        dataObj.push(JSON.parse(body));
         collection.insert(dataObj, (err, res) => {
             if(err) throw err;
             console.log("Number of documents inserted: " + res.insertedCount);

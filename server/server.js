@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 const publicRoot = process.env.MANDIPATH;
 const got = require('got');
 const request = require('request');
+let database,collection;
 
 //declaring express app
 const app = express();
@@ -134,11 +135,18 @@ request.get({
     }, 
     (error, response, body) => {
         if (!error && response.statusCode == 200) {
-            console.log(body);
+            //console.log(body);
         }
     });
 
 //allowing express to listen to ports
 app.listen(PORT, () => {
+    mongoClient.connect(process.env.DB_URI||'mongodb://localhost/mandi', {useUnifiedTopology: true}, (error,client) => {
+        if(error)
+            throw error;
+        database = client.db('mandi');
+        collection = database.collection('commodities');
+        console.log('connected to Mandi');
+    });
     console.log('server is runnning');
 });

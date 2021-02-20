@@ -10,6 +10,7 @@ const objectId = require('mongodb').ObjectID;
 const env = require('dotenv').config();
 const PORT = process.env.PORT || 3000;
 const publicRoot = process.env.MANDIPATH;
+const job = require('./mandiDB.js');
 
 //declaring express app
 const app = express();
@@ -122,6 +123,9 @@ passport.deserializeUser((id ,done) => {
     });
     done(null, user);
 });
+
+//ading a cron job
+
 
 //allowing express to listen to ports
 app.listen(PORT, () => {

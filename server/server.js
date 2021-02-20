@@ -10,6 +10,8 @@ const objectId = require('mongodb').ObjectID;
 const env = require('dotenv').config();
 const PORT = process.env.PORT || 3000;
 const publicRoot = process.env.MANDIPATH;
+const got = require('got');
+const request = require('request');
 
 //declaring express app
 const app = express();
@@ -122,6 +124,19 @@ passport.deserializeUser((id ,done) => {
     });
     done(null, user);
 });
+
+//fetching api data
+request.get({
+        url: `https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=${process.env.MANDI_KEY}&format=json&offset=10&limit=10`,
+        headers: {
+         'accept': 'applications/xml'
+        }, 
+    }, 
+    (error, response, body) => {
+        if (!error && response.statusCode == 200) {
+            console.log(body);
+        }
+    });
 
 //allowing express to listen to ports
 app.listen(PORT, () => {

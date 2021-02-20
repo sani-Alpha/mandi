@@ -20,7 +20,7 @@
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
-                        <a class="button is-dark">
+                        <a class="button is-dark" href="#" v-on:ckick="login">
                             <strong>Log In</strong>
                         </a>
                     </div>

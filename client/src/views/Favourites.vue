@@ -22,6 +22,7 @@ export default {
   name: 'Login',
   components: {
         MandiList,
+        Login,
   },
   data() {
     return {
@@ -30,22 +31,22 @@ export default {
       }
     }
   },
-  methods: {
-    getUserData: function() {
-      let self = this;
-      axios.get('/api/user')
-        .then((response) => {
-          console.log(response);
-          self.$set(this, "user", response.data.user);
-        })
-        .catch((errors) => {
-          console.log(errors);
-          router.push('/login');
-        });
-    }
-  },
-  mounted() {
-    this.getUserData();
-  }
+  // methods: {
+  //   getUserData: function() {
+  //     let self = this;
+  //     axios.get('/api/user')
+  //       .then((response) => {
+  //         console.log(response);
+  //         self.$set(this, "user", response.data.user);
+  //       })
+  //       .catch((errors) => {
+  //         console.log(errors);
+  //         router.push('/favourites');
+  //       });
+  //   }
+  // },
+  // mounted() {
+  //   this.getUserData();
+  // }
 }
 </script>

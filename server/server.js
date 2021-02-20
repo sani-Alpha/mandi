@@ -10,9 +10,6 @@ const objectId = require('mongodb').ObjectID;
 const env = require('dotenv').config();
 const PORT = process.env.PORT || 3000;
 const publicRoot = process.env.MANDIPATH;
-const got = require('got');
-const request = require('request');
-let database,collection;
 
 //declaring express app
 const app = express();

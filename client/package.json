@@ -1,5 +1,5 @@
 {
-  "name": "mandi",
+  "name": "client",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,9 +13,12 @@
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-cookies": "^1.7.4",
+    "vue-info-card": "^0.1.4",
     "vue-router": "^3.2.0"
   },
   "devDependencies": {
+    "@nuxtjs/vuetify": "^1.11.3",
+    "@vue/cli": "^4.5.11",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",

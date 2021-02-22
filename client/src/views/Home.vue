@@ -7,7 +7,7 @@
           <h1 class="title">Welcome To Your Mandi 🧺</h1>
           <h2 class="subtitle">Make sure you SignUp to get all the updates!</h2>
           <div class="button-block">
-            <button class="button is-xl is-dark">Sign Up</button>
+            <a class="button is-xl is-dark" href="/signup">Sign Up</a>
           </div>
         </div>
       </div>

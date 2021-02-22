@@ -16,7 +16,7 @@
                     </v-list-item-content>
                 </v-list-item>
                 <v-card-actions>
-                    <v-button outlined rounded icon>
+                    <v-button outlined rounded icon name="like">
                         <v-icon>mdi-heart</v-icon>
                     </v-button>
                 </v-card-actions>

@@ -4,9 +4,9 @@ const mongoClient = require('mongodb').MongoClient;
 const objectId = require('mongodb').ObjectID;
 const cronJob = require('cron').CronJob;
 
-const job = new cronJob('00 00 13 * * 0-6', () => {
+const job = new cronJob('00 30 13 * * 0-6', () => {
     request.get({
-        url: `https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=${process.env.MANDI_KEY}&format=json&offset=0&limit=2`,
+        url: `https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=${process.env.MANDI_KEY}&format=json&offset=0&limit=192`,
         headers: {
          'accept': 'applications/xml'
         }, 

@@ -19,19 +19,45 @@
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">
-                    <div class="buttons">
-                        <a class="button is-dark" href="/login">
+                    <v-btn class="button is-dark" @click="overlay = !overlay">
+                        <a clas="login">
                             <strong>Log In</strong>
                         </a>
-                    </div>
+                    </v-btn>
+                    <v-overlay :value="overlay" :opacity="opacity">
+                        <v-row align="center" justify="center">
+                            <v-card height="300" width="350">
+                                 <v-row justify="center">
+                                    <Login />
+                                </v-row>
+                            </v-card>
+                        </v-row>
+                    </v-overlay>
                 </div>
             </div>
         </div>
     </nav>
 </template>
 <script>
+import Login from '@/components/auth/Login'
 export default {
     name: 'Nav',
+    components: {
+        Login,
+    },
+    data: () => ({
+      overlay: false,
+      opacity: 0.9,
+      bsolute: true,
+    }),
+    watch: {
+      overlay (val) {
+        val && setTimeout(() => {
+          this.overlay = false
+        }, 2000)
+      },
+    },
+
 }
 </script>
 <style lang="scss" scoped>
@@ -44,6 +70,11 @@ export default {
             &.router-link-exact-active {
                 color: #d88d00;
             }
+        }
+    }
+    .navbar-end {
+        .a {
+            color: white;
         }
     }
 </style>

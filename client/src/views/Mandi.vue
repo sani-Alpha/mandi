@@ -11,7 +11,7 @@
   </div>
 </template>
 <script>
-import MandiList from '../components/MandiList';
+import MandiList from '@/components/MandiList';
 
 export default {
   name: 'Mandi',

@@ -3,8 +3,8 @@
         <h2 class="title">Login</h2>
         <form v-on:submit="login">
             <input class="email" type="text" /><br>
-            <input class="password" type="password" /><br>
-            <input class="button is-primary" type="submit" value="Login" /><br>
+            <input class="password" type="password" /><br><br>
+            <v-button class="button is-primary is-dark" @click="overlay=false" value="Login">Login</v-button><br>
         </form>
     </div>
 </template>
@@ -36,6 +36,16 @@ export default {
             }
             login();
         }
-    }
+    },
+    data: () => ({
+      absolute: true,
+      overlay: false,
+    }),
 }
 </script>
+
+<style lang="scss" scoped>
+    h2 {
+        color: white;
+    }
+</style>

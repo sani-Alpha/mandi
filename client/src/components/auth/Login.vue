@@ -1,11 +1,35 @@
 <template>
-    <div class="main">
-        <h2 class="title">Login</h2>
-        <form v-on:submit="login">
-            <input class="email" type="text" /><br>
-            <input class="password" type="password" /><br><br>
-            <v-button class="button is-primary is-dark" @click="overlay=false" value="Login">Login</v-button><br>
-        </form>
+    <div class="hero is-fullheight is-primary">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <div class="column is-8 is-offset-2">
+                    <h3 class="title has-text-white">Login</h3>
+                    <hr class="login-hr">
+                    <p class="subtitle has-text-white">Please login to access full features</p>
+
+                    <div class="box">
+                        <div class="title has-text-grey">Please enter your email and password</div>
+                        <form action="submit">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input is-large" type="email" placeholder="Email" autofocus="">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input is-large" type="password" placeholder="Password" autofocus="">
+                                </div>
+                            </div>
+                        </form><br>
+                        <button class="button is-block is-danger is-large is-fullwidth">Login</button> <br>
+                        <p class="has-text-black">
+                            <a href="/signup"> Sign Up</a> &nbsp; . &nbsp;
+                            <a href=""> Forgot Password?</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -43,9 +67,3 @@ export default {
     }),
 }
 </script>
-
-<style lang="scss" scoped>
-    h2 {
-        color: white;
-    }
-</style>

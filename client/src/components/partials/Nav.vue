@@ -26,11 +26,11 @@
                     </v-btn>
                     <v-overlay :value="overlay" :opacity="opacity">
                         <v-row align="center" justify="center">
-                            <v-card height="300" width="350">
+                            <div style="height:100; width:800">
                                  <v-row justify="center">
                                     <Login />
                                 </v-row>
-                            </v-card>
+                            </div>
                         </v-row>
                     </v-overlay>
                 </div>
@@ -50,13 +50,13 @@ export default {
       opacity: 0.9,
       bsolute: true,
     }),
-    watch: {
-      overlay (val) {
-        val && setTimeout(() => {
-          this.overlay = false
-        }, 2000)
-      },
-    },
+    // watch: {
+    //   overlay (val) {
+    //     val && setTimeout(() => {
+    //       this.overlay = false
+    //     }, 2000)
+    //   },
+    // },
 
 }
 </script>

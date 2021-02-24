@@ -8,7 +8,7 @@
             <div class="row is-one-quarter">
                 <CommodityCard />
             </div>
-            <div class="row is-one-quarter">
+            <!-- <div class="row is-one-quarter">
                 <CommodityCard />
             </div>
             <div class="row is-one-quarter">
@@ -40,10 +40,11 @@
             </div>
             <div class="row is-one-quarter">
                 <CommodityCard />
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
+
 <script>
 import CommodityCard from '@/components/CommodityCard';
 
@@ -54,6 +55,7 @@ export default {
     },
 }
 </script>
+
 <style lang="scss" scoped>
     .commodities {
         margin-top: 100px;

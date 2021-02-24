@@ -6,14 +6,19 @@
         <div class="container">
           <h1 class="title">Welcome To Your Mandi 🧺</h1>
           <h2 class="subtitle">Make sure you SignUp to get all the updates!</h2>
-          <div class="button-block">
-            <a class="button is-xl is-dark" href="/signup">Sign Up</a>
-          </div>
         </div>
       </div>
     </section>
   </div>
 </template>
+
+<script>
+export default {
+  name: "Home",
+  components: {
+  }
+}
+</script>
 
 <style lang="scss" scoped>
   .bg-image {
@@ -31,7 +36,7 @@
     background-color: rgba(0,0,0,0.6); //override
     border: 3px solid #f1f1f1;
     position: absolute;
-    top: 35%;
+    top: 45%;
     left: 50%;
     transform: translate(-50%,-50%);
     z-index: 2;

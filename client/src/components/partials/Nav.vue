@@ -19,20 +19,8 @@
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">
-                    <v-btn class="button is-dark" @click="overlay = !overlay">
-                        <a clas="login">
-                            <strong>Log In</strong>
-                        </a>
-                    </v-btn>
-                    <v-overlay :value="overlay" :opacity="opacity">
-                        <v-row align="center" justify="center">
-                            <div style="height:100; width:800">
-                                 <v-row justify="center">
-                                    <Login />
-                                </v-row>
-                            </div>
-                        </v-row>
-                    </v-overlay>
+                    <Login />
+                    <Signup />
                 </div>
             </div>
         </div>
@@ -40,23 +28,13 @@
 </template>
 <script>
 import Login from '@/components/auth/Login'
+import Signup from '@/components/auth/Signup'
 export default {
     name: 'Nav',
     components: {
         Login,
+        Signup,
     },
-    data: () => ({
-      overlay: false,
-      opacity: 0.9,
-      bsolute: true,
-    }),
-    // watch: {
-    //   overlay (val) {
-    //     val && setTimeout(() => {
-    //       this.overlay = false
-    //     }, 2000)
-    //   },
-    // },
 
 }
 </script>

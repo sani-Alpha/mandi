@@ -1,7 +1,9 @@
 <template>
     <div class="container">
         <v-btn class="button is-dark" @click="overlay = !overlay">
-            <a clas="login">Log In</a>
+            <a clas="login">
+                <strong>Log In</strong>
+            </a>
         </v-btn>
         <v-overlay :value="overlay" :opacity="opacity">
             <v-row align="center" justify="center">

@@ -13,7 +13,7 @@
               <div class="hero-body">
                 <div class="section">
                   <div class="container">
-                    <div class="title">Sign Up</div>
+                    <div class="title has-text-centered">Sign Up</div>
                     <div class="subtitle">With Your Email</div>
                     <hr class="signup-hr" />
                     <div class="box">

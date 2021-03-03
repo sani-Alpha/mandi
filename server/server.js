@@ -38,13 +38,13 @@ let users = [
     {
         id: 1,
         name: 'Sandy',
-        email: 'user@email.com',
+        email: 'user1@email.com',
         password: 'password'
     },
     {
         id: 2,
-        name: 'Rai',
-        email: 'rai@email.com',
+        name: 'Ishu',
+        email: 'user2@email.com',
         password: 'password'
     },
 ];
@@ -63,29 +63,18 @@ app.post('/api/login', (req,res,next) => {
             return res.status(400).send([user,'Cannot Log In!',info]);
         
         req.login(user,err => {
+            if(err) console.log(err);
             res.send('Logged In!');
         });
     })(req,res,next);
 });
 
-//get request from clien to logout
+//get request from client to logout
 app.get('/api/logout', (req,res) => {
     req.logout();
     console.log('Logged Out!');
     return res.send();
 });
-
-app.get('/api/mandi', (req,res) => {
-    mongoClient.connect(process.env.MANDI_URI||'mongodb://localhost/mandi', {useUnifiedTopology: true}, (error,client) => {
-        if(error)
-            throw error;
-        client.db('Mandi').collection('commodities').find({}).toArray((error,result) =>{
-            if(error)
-                return res.status(500).send(error); 
-            res.status(200).send(result);
-        });
-    });
-})
 
 //defining middleware filter
 const authMiddleware = (req,res,next) => {
@@ -93,6 +82,7 @@ const authMiddleware = (req,res,next) => {
         res.status(401).send('You are not Authenticated!');
     else
         return next();
+}
 
 //get request from client to fetch authenticated users
 app.get('/api/user', authMiddleware, (req,res) => {
@@ -103,7 +93,6 @@ app.get('/api/user', authMiddleware, (req,res) => {
     res.send({user:user});
 });
 
-}
 //using local auth strategy
 passport.use(
     new localStrat(
@@ -135,6 +124,18 @@ passport.deserializeUser((id ,done) => {
     });
     done(null, user);
 });
+
+app.get('/api/mandi', (req,res) => {
+    mongoClient.connect(process.env.MANDI_URI||'mongodb://localhost/mandi', {useUnifiedTopology: true}, (error,client) => {
+        if(error)
+            throw error;
+        client.db('Mandi').collection('commodities').find({}).toArray((error,result) =>{
+            if(error)
+                return res.status(500).send(error); 
+            res.status(200).send(result);
+        });
+    });
+})
 
 //allowing express to listen to ports
 app.listen(PORT, () => {

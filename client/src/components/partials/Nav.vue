@@ -27,14 +27,25 @@
     </nav>
 </template>
 <script>
-import Login from '@/components/auth/Login'
-import Signup from '@/components/auth/Signup'
+import Login from '@/components/auth/Login';
+import Signup from '@/components/auth/Signup';
+import axios from 'axios';
+import router from '../../router';
 export default {
     name: 'Nav',
     components: {
         Login,
         Signup,
     },
+    logout: function(e){
+        axios.get('/api/logout')
+        .then(() => {
+            router.push('/');
+        })
+        .catch(() => {
+            console.log(e);
+        })
+    }
 
 }
 </script>

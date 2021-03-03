@@ -66,11 +66,11 @@ export default {
 <style lang="scss" scoped>
 .commodities {
   margin-top: 100px;
-  margin-left: 100px;
+  margin-left: 50px;
   text-align: center;
 }
 
 .commodity-card {
-    margin: 5px;
+    margin: 8px;
 }
 </style>

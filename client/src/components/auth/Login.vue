@@ -19,25 +19,26 @@
 
                                         <div class="box">
                                             <div class="title has-text-grey">Please enter your email and password</div>
-                                            <form action="submit">
+                                            <form v-on:submit="login">
                                                  <div class="field">
                                                     <div class="control">
-                                                        <input class="input is-large" type="email" placeholder="Email" autofocus="">
+                                                        <input class="input is-large" type="email" name="email" placeholder="Email" autofocus="">
                                                     </div>
                                                 </div>
                                                 <div class="field">
                                                     <div class="control">
-                                                        <input class="input is-large" type="password" placeholder="Password" autofocus="">
+                                                        <input class="input is-large" type="password" name="password" placeholder="Password" autofocus="">
                                                     </div>
                                                 </div>
-                                            </form><br>
-                                            <div class="control">
-                                                <button class="button is-block is-danger is-large is-fullwidth" type="submit">Login</button> <br>
+                                                <div class="control">
+                                                <v-btn class="button is-block is-danger is-large is-fullwidth" type="submit" @click="overlay = overlay">Login</v-btn> <br>
                                                 <p class="has-text-black">
                                                     &nbsp; || &nbsp; <a href="/signup"> Sign Up</a> &nbsp; || &nbsp;
                                                     <a href=""> Forgot Password?</a> &nbsp; || &nbsp;
                                                 </p>
                                             </div>
+                                            </form><br>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -58,8 +59,8 @@ export default {
     methods: {
         login: (e) => {
             e.preventDefault();
-            let email = e.target.elements.email.vue;
-            let password = e.target.elements.password.vue;
+            let email = e.target.elements.email.value;
+            let password = e.target.elements.password.value;
             let login = () => {
                 let data = {
                     email: email,
@@ -83,12 +84,12 @@ export default {
       opacity: 0.9,
       absolute: true,
     }),
-    // watch: {
-    //   overlay (val) {
-    //     val && setTimeout(() => {
-    //       this.overlay = false
-    //     }, 2000)
-    //   },
-    // },
+    watch: {
+      overlay (val) {
+        val && setTimeout(() => {
+          this.overlay = false
+        }, 8000)
+      },
+    },
 }
 </script>

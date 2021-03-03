@@ -75,6 +75,18 @@ app.get('/api/logout', (req,res) => {
     return res.send();
 });
 
+app.get('/api/mandi', (req,res) => {
+    mongoClient.connect(process.env.MANDI_URI||'mongodb://localhost/mandi', {useUnifiedTopology: true}, (error,client) => {
+        if(error)
+            throw error;
+        client.db('Mandi').collection('commodities').find({}).toArray((error,result) =>{
+            if(error)
+                return res.status(500).send(error); 
+            res.status(200).send(result);
+        });
+    });
+})
+
 //defining middleware filter
 const authMiddleware = (req,res,next) => {
     if(!req.isAuthenticated())

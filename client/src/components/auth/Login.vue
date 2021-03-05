@@ -31,7 +31,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="control">
-                                                <v-btn class="button is-block is-danger is-large is-fullwidth" type="submit" @click="overlay = overlay">Login</v-btn> <br>
+                                                <button class="button is-block is-danger is-large is-fullwidth" type="submit" @click="overlay = overlay">Login</button> <br>
                                                 <p class="has-text-black">
                                                     &nbsp; || &nbsp; <a href="/signup"> Sign Up</a> &nbsp; || &nbsp;
                                                     <a href=""> Forgot Password?</a> &nbsp; || &nbsp;
@@ -68,9 +68,10 @@ export default {
                 }
                 axios.post('/api/login', data)
                     .then((response) => {
-                        console.log('logged in');
                         console.log(response);
+                        alert('Logged In!');
                         router.push('/favourites');
+                        location.reload();
                     }).catch((errors) => {
                         console.log('cannot log in');
                         console.log(errors);
@@ -84,12 +85,12 @@ export default {
       opacity: 0.9,
       absolute: true,
     }),
-    watch: {
-      overlay (val) {
-        val && setTimeout(() => {
-          this.overlay = false
-        }, 8000)
-      },
-    },
+    // watch: {
+    //   overlay (val) {
+    //     val && setTimeout(() => {
+    //       this.overlay = false
+    //     }, 11000)
+    //   },
+    // },
 }
 </script>

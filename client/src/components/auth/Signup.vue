@@ -17,7 +17,7 @@
                     <div class="subtitle">With Your Email</div>
                     <hr class="signup-hr" />
                     <div class="box">
-                      <form id="register-form" action="submit">
+                      <form id="register-form" action="submit" v-on:submit="signup">
                         <div class="field">
                           <label class="label" for="username">Username</label>
                           <div class="control">
@@ -94,8 +94,7 @@
                             </div>
                           </div>
                         </div>
-                      </form>
-                      <br />
+                        <br />
                       <div class="control">
                         <button
                           class="button is-block is-danger is-large is-fullwidth"
@@ -108,6 +107,7 @@
                           &nbsp; || &nbsp; <a href=""> Login Instead?</a> &nbsp;|| &nbsp;
                         </p>
                       </div>
+                      </form>
                     </div>
                   </div>
                 </div>
@@ -121,8 +121,44 @@
 </template>
 
 <script>
+// import bcrypt from 'bcryptjs';
+// import router from '../../router';
+import axios from 'axios';
+
 export default {
   name: "Signup",
+  methods: {
+        signup: (e) => {
+            e.preventDefault();
+            let email = e.target.elements.email.value;
+            let password = e.target.elements.password.value;
+            //bcrypt.hash(e.target.elements.password.value, 10, (err,hash) => {
+              //  if(err) console.log(err);
+                //password = hash;
+            //});
+            let name = e.target.elements.firstName.value + e.target.elements.lastName.value;
+            let username = e.target.elements.username.value;
+            let signup = () => {
+                let data = {
+                    name: name,
+                    username: username,
+                    email: email,
+                    password: password,                    
+                }
+                console.log(data);
+                axios.post('/api/register', data)
+                    .then((response) => {
+                        console.log(response);
+                        alert('Signed Up Successfully');
+                        location.reload();
+                    }).catch((errors) => {
+                        console.log('cannot sign up');
+                        console.log(errors);
+                    });
+            }
+            signup();
+        }
+    },
   data: () => ({
     overlay: false,
     opacity: 0.9,

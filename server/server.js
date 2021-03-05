@@ -11,6 +11,8 @@ const env = require('dotenv').config();
 const PORT = process.env.PORT || 3000;
 const publicRoot = process.env.MANDIPATH;
 const job = require('./mandiDB.js');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 //declaring express app
 const app = express();
@@ -49,9 +51,26 @@ let users = [
     },
 ];
 
+let database,collection;
+
 //get request to home page
 app.get('/', (req,res) => {
     res.status(200).sendFile('index.html', {root: publicRoot});
+});
+
+//post request to register into db user details
+app.post('/api/register', (req,res) => {
+    let data = {
+        'name': req.body.name,
+        'username': req.body.username,
+        'email': req.body.email,
+        'password': req.body.password,
+    };
+    collection.insert(data, (err, res) => {
+        if(err) throw err;
+        console.log('Number of documents inserted: ' + res.insertedCount);
+    });
+    res.status(200).send('Signup Successful');
 });
 
 //post request from client to login page
@@ -140,4 +159,11 @@ app.get('/api/mandi', (req,res) => {
 //allowing express to listen to ports
 app.listen(PORT, () => {
     console.log('server is runnning');
+    mongoClient.connect(process.env.USER_URI||'mongodb://localhost/users', {useUnifiedTopology: true}, (error,client) => {
+                if(error)
+                    throw error;
+                database = client.db('Users');
+                collection = database.collection('users');
+                console.log('connected to Users');
+            });
 });

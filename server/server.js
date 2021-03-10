@@ -128,14 +128,15 @@ passport.use(
 
 //user identification from cookie using id
 passport.serializeUser((user,done) => {
-    done(null, user.id);
+    console.log(user);
+    done(null, user._id);
 });
 
 //fulffiling request to access secured URL 
 passport.deserializeUser((id ,done) => {
     collection.findById(id, function (err, user) {
         if (err) {
-          return cb(err);
+          return done(err);
         }
         done(null, user);
       });

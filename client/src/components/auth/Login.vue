@@ -71,7 +71,6 @@ export default {
                         console.log(response);
                         alert('Logged In!');
                         router.push('/favourites');
-                        location.reload();
                     }).catch((errors) => {
                         console.log('cannot log in');
                         console.log(errors);
@@ -85,12 +84,12 @@ export default {
       opacity: 0.9,
       absolute: true,
     }),
-    // watch: {
-    //   overlay (val) {
-    //     val && setTimeout(() => {
-    //       this.overlay = false
-    //     }, 11000)
-    //   },
-    // },
+    watch: {
+      overlay (val) {
+        val && setTimeout(() => {
+          this.overlay = false
+        }, 11000)
+      },
+    },
 }
 </script>

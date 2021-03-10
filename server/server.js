@@ -35,23 +35,15 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
-//temp data storage || will later be switched with database
-let users = [
-    {
-        id: 1,
-        name: 'Sandy',
-        email: 'user1@email.com',
-        password: 'password'
-    },
-    {
-        id: 2,
-        name: 'Ishu',
-        email: 'user2@email.com',
-        password: 'password'
-    },
-];
-
 let database,collection;
+//temp data storage || will later be switched with database
+mongoClient.connect(process.env.USER_URI||'mongodb://localhost/users', {useUnifiedTopology: true}, (error,client) => {
+                if(error)
+                    throw error;
+                database = client.db('Users')
+                collection = database.collection('users')
+                console.log('connected to Users');
+            });
 
 //get request to home page
 app.get('/', (req,res) => {
@@ -105,7 +97,7 @@ const authMiddleware = (req,res,next) => {
 
 //get request from client to fetch authenticated users
 app.get('/api/user', authMiddleware, (req,res) => {
-    let user = users.find(user => {
+    let user = collection.find(user => {
         return user.id === req.session.passport.user;
     });
     console.log([user, req.session]);
@@ -120,13 +112,16 @@ passport.use(
             passwordField: 'password',
         },
         (username,password,done) => {
-            let user = users.find((user) => {
-                return user.email === username && user.password === password;
-            });
-            if(user)
-                done(null,user);
-            else
-                done(null, false, {message:'Incorrect username or password'});
+            collection.findOne({email:username})
+                .then((user) => {
+                if( user.email === username && user.password === password)
+                    return done(null,user);
+                else
+                    return done(null, false, {message:'Incorrect username or password'});
+            })
+            .catch((err)=>{
+                done(err);
+            });               
         },
     )
 );
@@ -138,17 +133,19 @@ passport.serializeUser((user,done) => {
 
 //fulffiling request to access secured URL 
 passport.deserializeUser((id ,done) => {
-    let user = users.find((user) => {
-        return user.id === id;
-    });
-    done(null, user);
+    collection.findById(id, function (err, user) {
+        if (err) {
+          return cb(err);
+        }
+        done(null, user);
+      });
 });
 
 app.get('/api/mandi', (req,res) => {
     mongoClient.connect(process.env.MANDI_URI||'mongodb://localhost/mandi', {useUnifiedTopology: true}, (error,client) => {
         if(error)
             throw error;
-        client.db('Mandi').collection('commodities').find({}).toArray((error,result) =>{
+        client.db('Mandi').collection('commodities').find({}).sort({"arrival_date":-1}).limit(192).toArray((error,result) =>{
             if(error)
                 return res.status(500).send(error); 
             res.status(200).send(result);
@@ -159,11 +156,4 @@ app.get('/api/mandi', (req,res) => {
 //allowing express to listen to ports
 app.listen(PORT, () => {
     console.log('server is runnning');
-    mongoClient.connect(process.env.USER_URI||'mongodb://localhost/users', {useUnifiedTopology: true}, (error,client) => {
-                if(error)
-                    throw error;
-                database = client.db('Users');
-                collection = database.collection('users');
-                console.log('connected to Users');
-            });
 });

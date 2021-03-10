@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 const publicRoot = process.env.MANDIPATH;
 const job = require('./mandiDB.js');
 const bcrypt = require('bcrypt');
+const { ObjectId } = require('bson');
 const saltRounds = 10;
 
 //declaring express app
@@ -97,11 +98,15 @@ const authMiddleware = (req,res,next) => {
 
 //get request from client to fetch authenticated users
 app.get('/api/user', authMiddleware, (req,res) => {
-    let user = collection.find(user => {
-        return user.id === req.session.passport.user;
+    collection.findOne({_id : ObjectId(req.user._id)})
+     .then((user) => {
+        if(user._id == req.session.passport.user){
+            console.log([user, req.session]);
+            res.send({user: user.name});
+        }
+    }).catch((err) => {
+        throw err;
     });
-    console.log([user, req.session]);
-    res.send({user:user});
 });
 
 //using local auth strategy
@@ -128,18 +133,18 @@ passport.use(
 
 //user identification from cookie using id
 passport.serializeUser((user,done) => {
-    console.log(user);
     done(null, user._id);
 });
 
 //fulffiling request to access secured URL 
 passport.deserializeUser((id ,done) => {
-    collection.findById(id, function (err, user) {
-        if (err) {
-          return done(err);
-        }
+    collection.findOne({ _id : ObjectId(id)})
+     .then((user) => {
         done(null, user);
-      });
+      })
+     .catch((err)=>{
+         done(err);
+     }) ;
 });
 
 app.get('/api/mandi', (req,res) => {

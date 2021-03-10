@@ -136,7 +136,7 @@ export default {
               //  if(err) console.log(err);
                 //password = hash;
             //});
-            let name = e.target.elements.firstName.value + e.target.elements.lastName.value;
+            let name = e.target.elements.firstName.value + ' ' + e.target.elements.lastName.value;
             let username = e.target.elements.username.value;
             let signup = () => {
                 let data = {

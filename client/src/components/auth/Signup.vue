@@ -131,13 +131,10 @@ export default {
         signup: (e) => {
             e.preventDefault();
             let email = e.target.elements.email.value;
-            let password = e.target.elements.password.value;
-            //bcrypt.hash(e.target.elements.password.value, 10, (err,hash) => {
-              //  if(err) console.log(err);
-                //password = hash;
-            //});
+            let password = e.target.elements.password.value; //bcrypt.hashSync(e.target.elements.password.value, bcrypt.genSaltSync(10));
             let name = e.target.elements.firstName.value + ' ' + e.target.elements.lastName.value;
             let username = e.target.elements.username.value;
+            console.log(password);
             let signup = () => {
                 let data = {
                     name: name,

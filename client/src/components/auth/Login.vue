@@ -54,13 +54,15 @@
 <script>
 import router from '../../router';
 import axios from 'axios';
+// import bcrypt from 'bcryptjs';
+
 export default {
     name: "Login",
     methods: {
         login: (e) => {
             e.preventDefault();
             let email = e.target.elements.email.value;
-            let password = e.target.elements.password.value;
+            let password = e.target.elements.password.value; //bcrypt.hashSync(e.target.elements.password.value, bcrypt.genSaltSync(10));
             let login = () => {
                 let data = {
                     email: email,

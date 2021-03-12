@@ -5,7 +5,8 @@
   "main": "server/server.js",
   "scripts": {
     "start": "node server.js",
-    "devserver": "npx nodemon server.js"
+    "devserver": "npx nodemon server.js",
+    "postinstall": "cd client | npm ci"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +21,7 @@
     "mongodb": "^3.6.4",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
+    "path": "^0.12.7",
     "request": "^2.88.2"
   },
   "devDependencies": {

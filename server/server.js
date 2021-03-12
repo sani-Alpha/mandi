@@ -8,12 +8,12 @@ const localStrat = require('passport-local').Strategy;
 const mongoClient = require('mongodb').MongoClient;
 const objectId = require('mongodb').ObjectID;
 const env = require('dotenv').config();
+const path = require('path')
 const PORT = process.env.PORT || 3000;
-const publicRoot = process.env.MANDIPATH;
+const publicRoot = path.join(__dirname, '../client/dist');
 const job = require('./mandiDB.js');
 const bcrypt = require('bcrypt');
 const { ObjectId } = require('bson');
-const shajs = require('sha.js');
 
 //declaring express app
 const app = express();

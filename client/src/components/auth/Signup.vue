@@ -121,9 +121,10 @@
 </template>
 
 <script>
-// import bcrypt from 'bcryptjs';
+
 // import router from '../../router';
 import axios from 'axios';
+import shajs from 'sha.js';
 
 export default {
   name: "Signup",
@@ -131,7 +132,7 @@ export default {
         signup: (e) => {
             e.preventDefault();
             let email = e.target.elements.email.value;
-            let password = e.target.elements.password.value; //bcrypt.hashSync(e.target.elements.password.value, bcrypt.genSaltSync(10));
+            let password = shajs('sha256').update(e.target.elements.password.value).digest('hex');
             let name = e.target.elements.firstName.value + ' ' + e.target.elements.lastName.value;
             let username = e.target.elements.username.value;
             console.log(password);

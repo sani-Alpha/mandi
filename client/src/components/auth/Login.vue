@@ -54,7 +54,7 @@
 <script>
 import router from '../../router';
 import axios from 'axios';
-// import bcrypt from 'bcryptjs';
+import shajs from 'sha.js';
 
 export default {
     name: "Login",
@@ -62,7 +62,7 @@ export default {
         login: (e) => {
             e.preventDefault();
             let email = e.target.elements.email.value;
-            let password = e.target.elements.password.value; //bcrypt.hashSync(e.target.elements.password.value, bcrypt.genSaltSync(10));
+            let password = shajs('sha256').update(e.target.elements.password.value).digest('hex');
             let login = () => {
                 let data = {
                     email: email,

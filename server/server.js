@@ -13,7 +13,7 @@ const publicRoot = process.env.MANDIPATH;
 const job = require('./mandiDB.js');
 const bcrypt = require('bcrypt');
 const { ObjectId } = require('bson');
-const saltRounds = 10;
+const shajs = require('sha.js');
 
 //declaring express app
 const app = express();
@@ -57,7 +57,7 @@ app.post('/api/register', (req,res) => {
         'name': req.body.name,
         'username': req.body.username,
         'email': req.body.email,
-        'password': req.body.password,
+        'password': bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10)),
     };
     collection.insert(data, (err, res) => {
         if(err) throw err;
@@ -119,13 +119,20 @@ passport.use(
         (username,password,done) => {
             collection.findOne({email:username})
                 .then((user) => {
-                if( user.email === username && user.password === password)
-                    return done(null,user);
-                else
-                    return done(null, false, {message:'Incorrect username or password'});
-            })
-            .catch((err)=>{
-                done(err);
+                    console.log(password);
+                    console.log(user.password);
+                    bcrypt.compare(password, user.password, (err, result) => {
+                        console.log(`result is ${result}`);
+                        if(err) console.log(err);
+                        if( user.email === username && result){
+                            return done(null,user);
+                        }
+                        else
+                            return done(null, false, {message:'Incorrect username or password'});
+                    });
+                })
+                .catch((err)=>{
+                    done(err);
             });               
         },
     )
@@ -161,5 +168,5 @@ app.get('/api/mandi', (req,res) => {
 
 //allowing express to listen to ports
 app.listen(PORT, () => {
-    console.log('server is runnning');
+    console.log(`server is runnning on "http://localhost:${PORT}"`);
 });

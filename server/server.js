@@ -36,14 +36,15 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
-let database,collection;
+let database, Users, Commodities;
 //temp data storage || will later be switched with database
-mongoClient.connect(process.env.USER_URI||'mongodb://localhost/users', {useUnifiedTopology: true}, (error,client) => {
+mongoClient.connect(process.env.MANDI_URI||'mongodb://localhost/users', {useUnifiedTopology: true}, (error,client) => {
                 if(error)
                     throw error;
-                database = client.db('Users')
-                collection = database.collection('users')
-                console.log('connected to Users');
+                database = client.db('Mandi');
+                Users = database.collection('users');
+                Commodities = database.collection('commodities');
+                console.log('connected to Users and Commodities');
             });
 
 //get request to home page
@@ -58,8 +59,9 @@ app.post('/api/register', (req,res) => {
         'username': req.body.username,
         'email': req.body.email,
         'password': bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10)),
+        'favourites': [],
     };
-    collection.insert(data, (err, res) => {
+    Users.insert(data, (err, res) => {
         if(err) throw err;
         console.log('Number of documents inserted: ' + res.insertedCount);
     });
@@ -98,7 +100,7 @@ const authMiddleware = (req,res,next) => {
 
 //get request from client to fetch authenticated users
 app.get('/api/user', authMiddleware, (req,res) => {
-    collection.findOne({_id : ObjectId(req.user._id)})
+    Users.findOne({_id : ObjectId(req.user._id)})
      .then((user) => {
         if(user._id == req.session.passport.user){
             console.log([user, req.session]);
@@ -117,12 +119,12 @@ passport.use(
             passwordField: 'password',
         },
         (username,password,done) => {
-            collection.findOne({email:username})
+            Users.findOne({email:username})
                 .then((user) => {
                     console.log(password);
                     console.log(user.password);
                     bcrypt.compare(password, user.password, (err, result) => {
-                        console.log(`result is ${result}`);
+                        //console.log(`result is ${result}`);
                         if(err) console.log(err);
                         if( user.email === username && result){
                             return done(null,user);
@@ -145,7 +147,7 @@ passport.serializeUser((user,done) => {
 
 //fulffiling request to access secured URL 
 passport.deserializeUser((id ,done) => {
-    collection.findOne({ _id : ObjectId(id)})
+    Users.findOne({ _id : ObjectId(id)})
      .then((user) => {
         done(null, user);
       })
@@ -155,16 +157,12 @@ passport.deserializeUser((id ,done) => {
 });
 
 app.get('/api/mandi', (req,res) => {
-    mongoClient.connect(process.env.MANDI_URI||'mongodb://localhost/mandi', {useUnifiedTopology: true}, (error,client) => {
-        if(error)
-            throw error;
-        client.db('Mandi').collection('commodities').find({}).sort({"arrival_date":-1}).limit(192).toArray((error,result) =>{
+        Commodities.find({},{max_price:1,min_price:1,modal_price:1,arrival_date:1,commodity:1,variety:1}).sort({"arrival_date":-1}).limit(192).toArray((error,result) =>{
             if(error)
                 return res.status(500).send(error); 
             res.status(200).send(result);
         });
-    });
-})
+});
 
 //allowing express to listen to ports
 app.listen(PORT, () => {

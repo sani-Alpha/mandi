@@ -1,8 +1,18 @@
 <template>
   <div class="commodities container">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <strong>Search for Commodity</strong>
+      </div>
+      <div class="row">
+        <div class="search-wrapper panel-heading col-sm-12">
+          <input class="form-control" type="text" v-model="searchQuery" placeholder="Search">
+        </div>
+      </div>
+    </div>
     <div class="columns is-multiline">
       <div class="row is-one-quarter">
-        <div class="commodity-card" v-for="i in item" :key="i._id">
+        <div class="commodity-card" v-for="i in filteredResources" :key="i._id">
           <v-card width="250px" elevation="5" outlined shaped>
             <v-list-item three-line>
               <v-list-item-content>
@@ -57,9 +67,32 @@ export default {
   },
   data() {
     return {
+        searchQuery: '',
         item: [],
     };
   },
+  computed: {
+    // getResources() {
+    // axios
+    //   .get("/api/mandi")
+    //   .then((response) => {
+    //     this.item = response.data;
+    //     return;
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+    // },
+    filteredResources (){
+      if(this.searchQuery){
+        return this.item.filter((i)=> {
+          return i.commodity.startsWith(this.searchQuery);
+        })
+      }
+      else
+        return this.item;
+    }
+  }
 };
 </script>
 

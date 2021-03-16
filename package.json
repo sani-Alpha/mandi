@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "devserver": "npx nodemon server.js",
-    "postinstall": "cd client | npm ci"
+    "postinstall": "/client/ npm ci"
   },
   "keywords": [],
   "author": "",

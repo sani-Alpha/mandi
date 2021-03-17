@@ -33,7 +33,7 @@
               </v-list-item-content>
             </v-list-item>
             <v-card-actions>
-              <v-button outlined rounded icon v-on:click="favourite(i)">
+              <v-button outlined rounded icon v-on:click="unFavourite(i)">
                 <v-icon>mdi-heart</v-icon>
               </v-button>
               <!-- <CommodityGraph /> -->
@@ -51,14 +51,14 @@
 import axios from "axios";
 
 export default {
-  name: "MandiList",
+  name: "Favourite",
   components: {
     // CommodityGraph,
   },
   beforeMount() {
     let record;
     axios
-      .get("/api/mandi")
+      .get("/api/favourite")
       .then((response) => {
         record = response.data;
         this.item = record;
@@ -85,7 +85,7 @@ export default {
     },
   },
   methods: {
-    favourite: function(i) {
+    unFavourite: function(i) {
       let data = {
         commodity: i.commodity,
         variety: i.variety,

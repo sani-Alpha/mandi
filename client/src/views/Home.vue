@@ -32,7 +32,6 @@ export default {
           let self = this;
           axios.get('/api/user')
           .then((response) => {
-              console.log(this);
               self.$set(this, "user", response.data.user);
           })
           .catch((errors) => {

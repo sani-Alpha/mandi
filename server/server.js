@@ -103,7 +103,7 @@ app.get('/api/user', authMiddleware, (req,res) => {
     Users.findOne({_id : ObjectId(req.user._id)})
      .then((user) => {
         if(user._id == req.session.passport.user){
-            console.log([user, req.session]);
+            // console.log([user, req.session]);
             res.send({
                 user: {
                     name: user.name,
@@ -111,6 +111,8 @@ app.get('/api/user', authMiddleware, (req,res) => {
                 }
             });
         }
+        else
+            res.status(200).send("Please Log In");
     }).catch((err) => {
         throw err;
     });
@@ -126,10 +128,7 @@ passport.use(
         (username,password,done) => {
             Users.findOne({email:username})
                 .then((user) => {
-                    console.log(password);
-                    console.log(user.password);
                     bcrypt.compare(password, user.password, (err, result) => {
-                        //console.log(`result is ${result}`);
                         if(err) console.log(err);
                         if( user.email === username && result){
                             return done(null,user);
@@ -161,8 +160,36 @@ passport.deserializeUser((id ,done) => {
      }) ;
 });
 
+//to favourite unfavourite a commodity
+app.post('/api/favourite', authMiddleware, (req,res) => {
+    let data = {
+        'commodity': req.body.commodity,
+        'variety': req.body.variety
+    };
+    Users.findOne({_id : ObjectId(req.user._id)})
+     .then((user) => {
+        Users.updateOne({_id: ObjectId(user._id)},{$push: {'favourites': data}});
+        res.status(200).send('Added commodity to favourites');
+    }).catch((err) => {
+        throw err;
+    });
+});
+
+app.get('/api/favourite', async (req,res) => {
+    let favs = [];
+    Users.findOne({ _id : ObjectId(req.user._id) })
+    .then(async (user) => {
+        let userFavs = user.favourites;
+        for(let i=0;i<userFavs.length;i++){
+            let result = await Commodities.find({commodity: userFavs[i].commodity, variety: userFavs[i].variety}).sort({"arrival_date":-1}).limit(1).toArray();
+                favs.push(result[0]);
+        }
+        res.status(200).send(favs);
+    })
+});
+
 app.get('/api/mandi', (req,res) => {
-        Commodities.find({}).sort({"arrival_date":-1}).limit(150).toArray((error,result) =>{
+        Commodities.find({}).sort({"arrival_date":-1}).limit(200).toArray((error,result) =>{
             if(error)
                 return res.status(500).send(error); 
             res.status(200).send(result);

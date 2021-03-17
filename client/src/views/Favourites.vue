@@ -5,11 +5,7 @@
           <h2 class="title is-size-1">Your Favourite Commodities</h2>
         </div>
       <div class="main-body">
-        <div class="container has-text-centered">
-          <div class="column is-8">
-            <div class="title has-text-black">Name: {{ user.name }}</div>
-          </div>
-        </div>
+        <Favourite/>
       </div>
     </div>
   </div>
@@ -18,9 +14,13 @@
 <script>
 import axios from 'axios';
 import router from '../router';
+import Favourite from '@/components/Favourite';
 
 export default {
   name: "Favourites",
+  components: {
+    Favourite,
+  },
   data() {
       return {
           user:  {
@@ -44,9 +44,6 @@ export default {
   },
   mounted() {
       this.getUserData();
-  },
-  components: {
-
   },
 };
 </script>

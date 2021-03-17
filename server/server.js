@@ -175,6 +175,7 @@ app.post('/api/favourite', authMiddleware, (req,res) => {
     });
 });
 
+//to fetch and return the favourite commodities
 app.get('/api/favourite', async (req,res) => {
     let favs = [];
     Users.findOne({ _id : ObjectId(req.user._id) })
@@ -188,6 +189,19 @@ app.get('/api/favourite', async (req,res) => {
     })
 });
 
+//to unfavourite favourite commodities
+app.post('/api/removeFavourite', authMiddleware, (req,res) => {
+    Users.findOne({ _id : ObjectId(req.user._id) })
+    .then((user) => {
+        Users.updateOne({ _id: ObjectId(user._id) }, {$pull: {favourites: {commodity: req.body.commodity, variety: req.body.variety}}})
+        res.status(200).send('Item removed');
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+});
+
+//to fetch and return all commodities from MandiDB
 app.get('/api/mandi', (req,res) => {
         Commodities.find({}).sort({"arrival_date":-1}).limit(200).toArray((error,result) =>{
             if(error)

@@ -90,7 +90,7 @@ export default {
         commodity: i.commodity,
         variety: i.variety,
       };
-      axios.post('/api/favourite', data)
+      axios.post('/api/removeFavourite', data)
       .then((response) => {
         console.log(response);
       })

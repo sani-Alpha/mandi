@@ -19,8 +19,9 @@
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">
-                    <Login />
-                    <Signup />
+                    <button class="button is-block is-danger" v-if="user.authenticated"  v-on:click="logout">Logout</button>
+                    <Login v-if="!user.authenticated"></Login>
+                    <Signup v-if="!user.authenticated"></Signup>
                 </div>
             </div>
         </div>
@@ -37,15 +38,40 @@ export default {
         Login,
         Signup,
     },
-    logout: function(e){
+    data() {
+      return {
+          user:  {
+            name: "DummyUser",
+            authenticated: false,
+          }
+      }
+  },
+  methods: {
+      getUserData: function (){
+          let self = this;
+          axios.get('/api/user')
+          .then((response) => {
+              console.log(this);
+              self.$set(this, "user", response.data.user);
+          })
+          .catch((errors) => {
+              console.log(errors);
+          });
+      },
+      logout: function(e){
         axios.get('/api/logout')
         .then(() => {
             router.push('/');
+            location.reload();
         })
         .catch(() => {
             console.log(e);
         })
-    }
+    },
+  },
+  mounted() {
+      this.getUserData();
+  },
 
 }
 </script>

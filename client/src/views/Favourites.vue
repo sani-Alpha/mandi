@@ -7,7 +7,7 @@
       <div class="main-body">
         <div class="container has-text-centered">
           <div class="column is-8">
-            <div class="title has-text-black">Name: {{ user }}</div>
+            <div class="title has-text-black">Name: {{ user.name }}</div>
           </div>
         </div>
       </div>
@@ -23,7 +23,10 @@ export default {
   name: "Favourites",
   data() {
       return {
-          user:  "DummyUser"
+          user:  {
+            name: "DummyUser",
+            authenticated: false,
+          }
       }
   },
   methods: {
@@ -31,8 +34,6 @@ export default {
           let self = this;
           axios.get('/api/user')
           .then((response) => {
-              console.log(response.data.user);
-              console.log(this);
               self.$set(this, "user", response.data.user);
           })
           .catch((errors) => {

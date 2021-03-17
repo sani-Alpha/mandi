@@ -72,10 +72,11 @@ export default {
                     .then((response) => {
                         console.log(response);
                         alert('Logged In!');
-                        router.push('/favourites');
+                        location.reload();
                     }).catch((errors) => {
                         console.log('cannot log in');
                         console.log(errors);
+                        router.push('/');
                     });
             }
             login();

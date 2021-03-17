@@ -104,7 +104,12 @@ app.get('/api/user', authMiddleware, (req,res) => {
      .then((user) => {
         if(user._id == req.session.passport.user){
             console.log([user, req.session]);
-            res.send({user: user.name});
+            res.send({
+                user: {
+                    name: user.name,
+                    authenticated: true,
+                }
+            });
         }
     }).catch((err) => {
         throw err;

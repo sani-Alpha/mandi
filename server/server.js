@@ -157,7 +157,7 @@ passport.deserializeUser((id ,done) => {
 });
 
 app.get('/api/mandi', (req,res) => {
-        Commodities.find({},{max_price:1,min_price:1,modal_price:1,arrival_date:1,commodity:1,variety:1}).sort({"arrival_date":-1}).limit(192).toArray((error,result) =>{
+        Commodities.find({}).sort({"arrival_date":-1}).limit(150).toArray((error,result) =>{
             if(error)
                 return res.status(500).send(error); 
             res.status(200).send(result);

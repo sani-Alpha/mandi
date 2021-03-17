@@ -2,14 +2,17 @@
   <div class="commodities container">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <strong>Search for Commodity</strong>
-      </div>
-      <div class="row">
-        <div class="search-wrapper panel-heading col-sm-12">
-          <input class="form-control" type="text" v-model="searchQuery" placeholder="Search">
+        <div class="search-wrapper">
+          <input
+            class="form-control"
+            type="text"
+            v-model="searchQuery"
+            placeholder="Search for Commodities"
+          />
         </div>
       </div>
     </div>
+    <br>
     <div class="columns is-multiline">
       <div class="row is-one-quarter">
         <div class="commodity-card" v-for="i in filteredResources" :key="i._id">
@@ -58,7 +61,6 @@ export default {
       .get("/api/mandi")
       .then((response) => {
         record = response.data;
-        console.log(response.data);
         this.item = record;
       })
       .catch((error) => {
@@ -67,32 +69,21 @@ export default {
   },
   data() {
     return {
-        searchQuery: '',
-        item: [],
+      searchQuery: "",
+      item: [],
     };
   },
   computed: {
-    // getResources() {
-    // axios
-    //   .get("/api/mandi")
-    //   .then((response) => {
-    //     this.item = response.data;
-    //     return;
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-    // },
-    filteredResources (){
-      if(this.searchQuery){
-        return this.item.filter((i)=> {
-          return i.commodity.startsWith(this.searchQuery);
-        })
-      }
-      else
-        return this.item;
-    }
-  }
+    filteredResources() {
+      if (this.searchQuery) {
+        return this.item.filter((i) => {
+          return i.commodity
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase());
+        });
+      } else return this.item;
+    },
+  },
 };
 </script>
 
@@ -104,6 +95,6 @@ export default {
 }
 
 .commodity-card {
-    margin: 8px;
+  margin: 8px;
 }
 </style>

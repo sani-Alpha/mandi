@@ -125,6 +125,7 @@
 // import router from '../../router';
 import axios from 'axios';
 import shajs from 'sha.js';
+import router from '../../router';
 
 export default {
   name: "Signup",
@@ -148,6 +149,7 @@ export default {
                     .then((response) => {
                         console.log(response);
                         alert('Signed Up Successfully');
+                        router.push('/');
                         location.reload();
                     }).catch((errors) => {
                         console.log('cannot sign up');

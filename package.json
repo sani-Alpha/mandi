@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "devserver": "npx nodemon server.js",
-    "postinstall": "/client/ npm ci"
+    "heroku-postbuild": "cd client && ./build.sh"
   },
   "keywords": [],
   "author": "",

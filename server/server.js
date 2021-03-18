@@ -163,7 +163,7 @@ passport.deserializeUser((id ,done) => {
 //to favourite unfavourite a commodity
 app.post('/api/favourite', authMiddleware, async (req,res) => {
     let data = await {
-        '_id': req.body.variety+'@'+req.body.commodity,
+        '_id': req.body._id,
         'commodity': req.body.commodity,
         'variety': req.body.variety
     };
@@ -195,7 +195,7 @@ app.get('/api/favourite', async (req,res) => {
 app.post('/api/removeFavourite', authMiddleware, (req,res) => {
     Users.findOne({ _id : ObjectId(req.user._id) })
     .then((user) => {
-        Users.updateOne({ _id: ObjectId(user._id) }, {$pull: {favourites: {commodity: req.body.commodity, variety: req.body.variety}}})
+        Users.updateOne({ _id: ObjectId(user._id) }, {$pull: {favourites: {_id: req.body._id, commodity: req.body.commodity, variety: req.body.variety}}})
         res.status(200).send('Item removed');
     })
     .catch((err) => {

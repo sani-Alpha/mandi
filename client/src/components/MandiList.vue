@@ -87,6 +87,7 @@ export default {
   methods: {
     favourite: function(i) {
       let data = {
+        _id: i.variety+'@'+i.commodity,
         commodity: i.commodity,
         variety: i.variety,
       };

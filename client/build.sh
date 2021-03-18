@@ -1,3 +1,3 @@
-#/bin/bash
-npm install
-npm run build
+"serve": "vue-cli-service serve",
+"build": "vue-cli-service build",
+"lint": "vue-cli-service lint"

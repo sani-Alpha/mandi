@@ -33,7 +33,7 @@
               </v-list-item-content>
             </v-list-item>
             <v-card-actions>
-              <v-button outlined rounded icon v-on:click="favourite(i)">
+              <v-button outlined rounded icon @click="favourite(i)">
                 <v-icon>mdi-heart</v-icon>
               </v-button>
               <!-- <CommodityGraph /> -->

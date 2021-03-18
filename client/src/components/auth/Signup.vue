@@ -17,7 +17,7 @@
                     <div class="subtitle">With Your Email</div>
                     <hr class="signup-hr" />
                     <div class="box">
-                      <form id="register-form" action="submit" v-on:submit="signup">
+                      <form id="register-form" action="submit" @submit="signup">
                         <div class="field">
                           <label class="label" for="username">Username</label>
                           <div class="control">

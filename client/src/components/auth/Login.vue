@@ -19,7 +19,7 @@
 
                                         <div class="box">
                                             <div class="title has-text-grey">Please enter your email and password</div>
-                                            <form v-on:submit="login">
+                                            <form @submit="login">
                                                  <div class="field">
                                                     <div class="control">
                                                         <input class="input is-large" type="email" name="email" placeholder="Email" autofocus="">
@@ -31,7 +31,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="control">
-                                                <button class="button is-block is-danger is-large is-fullwidth" type="submit" @click="overlay = overlay">Login</button> <br>
+                                                <button class="button is-block is-danger is-large is-fullwidth" type="submit">Login</button> <br>
                                                 <p class="has-text-black">
                                                     &nbsp; || &nbsp; <a href="/signup"> Sign Up</a> &nbsp; || &nbsp;
                                                     <a href=""> Forgot Password?</a> &nbsp; || &nbsp;

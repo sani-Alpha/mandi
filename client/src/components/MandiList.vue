@@ -92,7 +92,8 @@ export default {
       };
       axios.post('/api/favourite', data)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
+        alert(response.data);
       })
       .catch((error) => {
         console.log(error);

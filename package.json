@@ -4,8 +4,7 @@
   "description": "",
   "main": "server/server.js",
   "scripts": {
-    "start": "node server.js",
-    "postinstall": "cd client && npm install"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",

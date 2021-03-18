@@ -161,14 +161,16 @@ passport.deserializeUser((id ,done) => {
 });
 
 //to favourite unfavourite a commodity
-app.post('/api/favourite', authMiddleware, (req,res) => {
-    let data = {
+app.post('/api/favourite', authMiddleware, async (req,res) => {
+    let data = await {
+        '_id': req.body.variety+'@'+req.body.commodity,
         'commodity': req.body.commodity,
         'variety': req.body.variety
     };
+    console.log(data._id);
     Users.findOne({_id : ObjectId(req.user._id)})
      .then((user) => {
-        Users.updateOne({_id: ObjectId(user._id)},{$push: {'favourites': data}});
+        Users.updateOne({_id: ObjectId(user._id)},{$push: {'favourites': data}},{upsert: true});
         res.status(200).send('Added commodity to favourites');
     }).catch((err) => {
         throw err;
